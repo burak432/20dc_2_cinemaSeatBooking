@@ -10,17 +10,29 @@ let biletFiyat = +filmSelect.value;
 
 //fonksiyon bilet fiyatını ve seçilen koltuk sayısı güncelliyor
 function biletGuncelle() {
-  const secilenkoltuksayisi = document.querySelectorAll(
-    ".row .koltuk.secilen"
-  ).length;
-  secildi.textContent = secilenkoltuksayisi;
-  total.textContent = secilenkoltuksayisi * biletFiyat;
+  const secilenkoltuksayisi = document.querySelectorAll(".row .koltuk.secilen");
+  secildi.textContent = secilenkoltuksayisi.length;
+  total.textContent = secilenkoltuksayisi.length * biletFiyat;
+
+  //localstorage kayıt, secilen koltuk indexlerinden array oluşturuluyor
+  const koltukIndex = [...secilenkoltuksayisi].map((item) => {
+    return [...koltuk].indexOf(item);
+  });
+  localStorage.setItem("secilenKoltuklar", JSON.stringify(koltukIndex));
+}
+
+//localstorage film select verilerini ekmele
+function localeFilmVerisi(filmindex, koltukFiyati) {
+  localStorage.setItem("filmindex", filmindex);
+  localStorage.setItem("koltukFiyati", koltukFiyati);
 }
 
 //fonksiyon film değiştirildiğinde total fiyatı da güncelliyor
 filmSelect.addEventListener("change", function (e) {
   biletFiyat = +e.target.value;
   biletGuncelle();
+    //film verisini localstorage kayıt fonksiyonuna yönlendirme
+    localeFilmVerisi(e.target.selectedIndex, e.target.value);
 });
 
 //eventlistener koltuk secimi
