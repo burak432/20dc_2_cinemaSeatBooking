@@ -73,7 +73,7 @@ body {
 
 .row .koltuk:not(.dolu):hover {
   cursor: pointer;
-  transform: scale(1.3);
+  transform: scale(1.2);
 }
 
 .perde {
