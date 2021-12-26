@@ -4,6 +4,8 @@ const koltuk = document.querySelectorAll(".row .koltuk:not(.dolu)");
 const total = document.getElementById("total");
 const secildi = document.getElementById("kacKoltuk");
 
+localStorageGetir();
+
 let sayac = 0;
 
 let biletFiyat = +filmSelect.value;
@@ -31,8 +33,9 @@ function localeFilmVerisi(filmindex, koltukFiyati) {
 filmSelect.addEventListener("change", function (e) {
   biletFiyat = +e.target.value;
   biletGuncelle();
-    //film verisini localstorage kayıt fonksiyonuna yönlendirme
-    localeFilmVerisi(e.target.selectedIndex, e.target.value);
+
+  //film verisini localstorage kayıt fonksiyonuna yönlendirme
+  localeFilmVerisi(e.target.selectedIndex, e.target.value);
 });
 
 //eventlistener koltuk secimi
@@ -45,3 +48,22 @@ container.addEventListener("click", function (e) {
     biletGuncelle();
   }
 });
+
+//localStorage içinden secilen verileri alma ve işleme
+function localStorageGetir() {
+  let secilenKoltuklar = JSON.parse(localStorage.getItem("secilenKoltuklar"));
+
+  if (secilenKoltuklar !== null && secilenKoltuklar.length > 0) {
+    koltuk.forEach((item, index) => {
+      if (secilenKoltuklar.indexOf(index) > -1) {
+        item.classList.add("secilen");
+      }
+    });
+  }
+
+  let localFilmBilgisi = localStorage.getItem("filmindex");
+
+  if (localFilmBilgisi !== null) {
+    filmSelect.selectedIndex = localFilmBilgisi;
+  }
+}
