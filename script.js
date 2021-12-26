@@ -67,3 +67,5 @@ function localStorageGetir() {
     filmSelect.selectedIndex = localFilmBilgisi;
   }
 }
+
+biletGuncelle();
